@@ -1,14 +1,22 @@
 
 // let interval1;
-let seconds = 00;
-let minutes = 00;
+let seconds = 0o0;
+let minutes = 0o0;
 let input;
 let interval1;
 
 function startMinCountdown() {
-    input = Number(document.getElementById('minutes').value);
+    if (seconds > 0 || minutes > 0) {
+        console.log("BAC")
+        interval1 = setInterval(timer, 1000);
+        return
+    }
+    input = Number(document.getElementById('minutes').value) || input;
+    if (!input) {
+        return
+    }
     output = document.getElementById("time");
-    output.textContent = input + ":" + seconds;
+    output.textContent = input + ":" + ("0" + seconds).slice(-2);
     seconds = 60;
     minutes = input - 1;
     seconds = 60;
@@ -27,7 +35,6 @@ function timer() {
         seconds = 59;
         minutes--;
     }
-
     output.textContent = minutes + ":" + seconds;
 }
 
@@ -36,7 +43,10 @@ function pauseMinCountdown() {
 }
 
 function restartMinCountdown() {
-    interval1 = setInterval(timer, 1000);
+    clearInterval(interval1)
+    seconds = 0
+    minutes = 0
+    startMinCountdown()
 }
 
 function resetTimer() {
